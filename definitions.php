@@ -1,5 +1,7 @@
 <?php 
 
+    // Definitions specifically for this application
+
     define('DEPARTURE_LINK', 'http://www.fis.com.mv/xml/depart.xml');
     define('ARRIVALS_LINK', 'http://www.fis.com.mv/xml/arrive.xml');
     define('FLIGHT_LOGO_PREFIX', 'http://fis.com.mv/webfids/images/');
