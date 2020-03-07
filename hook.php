@@ -25,19 +25,7 @@
 
         if( file_exists($commandFile) ) {
 
-            // Authenticate
-            if( $telegram->get_chat_id() == SHAN_CHAT_ID ) {
-
-                include $commandFile;
-
-            }
-            // Else, notify user that, command cannot be executed
-            else {
-
-                $response_text = "Sorry, I cannot provide that information for you.";
-
-            }
-            
+            include $commandFile;
 
         }
         else {
