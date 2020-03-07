@@ -1,6 +1,6 @@
 <?php
     /**
-     * FETCH DEPATURE FLIGHT INFORMATION FROM FIS
+     * FETCH ARRIVAL FLIGHT INFORMATION FROM FIS
      */
 
     include dirname(__DIR__) . '/init.php';
@@ -33,6 +33,8 @@
         $scheduled_t    = (string) $flight->Scheduled;
         $estimated_t    = (string) $flight->Estimated;
         $status         = (string) $flight->Status;
+        $status         = ( isset($status) && !empty($status) ? $status : NULL ); // Override after cleaning
+        $status         = trim($status); // Override after cleaning
         $direction      = 'arrival';
         $bound          = (string) $flight->CarrierType;
 
@@ -42,20 +44,19 @@
         $dbConn->where('scheduled_d', $scheduled_d);
         $dbConn->where('scheduled_t', $scheduled_t);
         $dbConn->where('direction', $direction);
-        $found = $dbConn->get('flightinfo');
+        $found = $dbConn->getOne('flightinfo');
 
         // If flight found
         if( !empty($found) ) {
-            echo "\t\tFlight $flight_no Found\n";
 
             // Check if status changed... Then update
-            if( $found['status'] != $status ) {
+            if( !empty($status) && $found['status_int'] != $status ) {
 
                 // Update
                 $data = [
-                    'estimated_t'   => ($status == "DE" ? NULL : date('H:i', strtotime($estimated_t))),
-                    'status_int'    => ($status == "" ? NULL : $status),
-                    'flight_status' => ($status == "" ? NULL : $statues[$status])
+                    'estimated_t'   => (!empty($status) && $status == "DE" ? NULL : date('H:i', strtotime($estimated_t))),
+                    'status_int'    => (empty($status) ? NULL : $status),
+                    'flight_status' => (empty($status) ? NULL : $statues[$status])
                 ];
                 
                 $dbConn->where('ID', $found['ID']);
@@ -67,8 +68,6 @@
         // Else, add new flight
         else {
 
-            echo "New Flight $flight_no\n";
-
             $data = [
                 'airline_id'    => $airline_id,
                 'airline_name'  => $airline_name,
@@ -76,8 +75,8 @@
                 'scheduled_d'   => date('Y-m-d', strtotime($scheduled_d)),
                 'scheduled_t'   => date('H:i', strtotime($scheduled_t)),
                 'estimated_t'   => ($status == "DE" ? NULL : date('H:i', strtotime($estimated_t))),
-                'status_int'    => ($status == "" ? NULL : $status),
-                'flight_status' => ($status == "" ? NULL : $statues[$status]),
+                'status_int'    => (empty($status) ? NULL : $status),
+                'flight_status' => (empty($status) ? NULL : $statues[$status]),
                 'airline_img'   => FLIGHT_LOGO_PREFIX.strtolower($airline_id).'.gif',
                 'direction'     => $direction,
                 'bound'         => $bound

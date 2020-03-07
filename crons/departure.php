@@ -48,11 +48,9 @@
 
         // If flight found
         if( !empty($found) ) {
-            echo "\tFlight $flight_no Found\n";
-            echo "STATUS: $status\n\n";
 
             // Check if status changed... Then update
-            if( !empty($status) && $found['status'] != $status ) {
+            if( !empty($status) && $found['status_int'] != $status ) {
 
                 // Update
                 $data = [
@@ -69,8 +67,6 @@
         }
         // Else, add new flight
         else {
-
-            echo "New Flight $flight_no\n";
 
             $data = [
                 'airline_id'    => $airline_id,
