@@ -49,13 +49,13 @@
             echo "\t\tFlight $flight_no Found\n";
 
             // Check if status changed... Then update
-            if( $found['status'] != $status ) {
+            if( isset($status) && $found['status'] != $status ) {
 
                 // Update
                 $data = [
-                    'estimated_t'   => ($status == "DE" ? NULL : date('H:i', strtotime($estimated_t))),
-                    'status_int'    => ($status == "" ? NULL : $status),
-                    'flight_status' => ($status == "" ? NULL : $statues[$status])
+                    'estimated_t'   => (isset($status) && $status == "DE" ? NULL : date('H:i', strtotime($estimated_t))),
+                    'status_int'    => (isset($status) || $status == "" ? NULL : $status),
+                    'flight_status' => (isset($status) || $status == "" ? NULL : $statues[$status])
                 ];
                 
                 $dbConn->where('ID', $found['ID']);
