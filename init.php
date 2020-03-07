@@ -14,7 +14,7 @@
     }
 
      // Check if bot token is set
-     if( defined('BOT_TOKEN') || BOT_TOKEN == "" ) {
+     if( !defined('BOT_TOKEN') || BOT_TOKEN == "" ) {
         die("Telegram bot token not set\n");
     }
 
