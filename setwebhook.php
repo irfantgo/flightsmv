@@ -13,7 +13,7 @@
     include __DIR__ . '/ui.php';
 
     // Create New Instance
-    $telegram = new Telegram(BOT_TOKEN);
-    echo $telegram->set_webhook( 'https://worklogger.sheyn.xyz/hook.php' );
+    $telegram = new Telegram( BOT_TOKEN );
+    echo $telegram->set_webhook( BOT_WEBHOOK );
 
     
