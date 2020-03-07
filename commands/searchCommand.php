@@ -10,8 +10,15 @@
     else {
 
         // Clean up flight no
-        $flight_no = str_replace(' ', '', $flight_no);
         $flight_no = strtoupper($flight_no);
+        
+        // Set space if not found
+        $hasSpace = strpos($flight_no, ' ');
+        if( $hasSpace == 0 ) {
+            $p = substr($flight_no, 0, 2);
+            $s = substr($flight_no, 2, strlen($flight_no));
+            $flight_no = "$p $s";
+        }
 
         // Look for the flight
         $dbConn->where('flight_no', $flight_no);
