@@ -1,7 +1,7 @@
 <?php 
 
     // Include Configuration
-    include __DIR__ . '/config.php';
+    include __DIR__ . '/init.php';
 
     // Include Composer Modules
     include __DIR__ . '/vendor/autoload.php';

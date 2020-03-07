@@ -1,7 +1,7 @@
 <?php
 
     // Include Configuration
-    include __DIR__ . '/config.php';
+    include __DIR__ . '/init.php';
 
     // Include functions
     include __DIR__ . '/functions.php';

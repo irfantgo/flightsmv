@@ -3,7 +3,7 @@
      * FETCH DEPATURE FLIGHT INFORMATION FROM FIS
      */
 
-    include dirname(__DIR__) . '/config.php';
+    include dirname(__DIR__) . '/init.php';
     include dirname(__DIR__) . '/telegram.php';
     include dirname(__DIR__) . '/requests.php';
     include dirname(__DIR__) . '/functions.php';
