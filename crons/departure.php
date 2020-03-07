@@ -33,7 +33,7 @@
         $scheduled_t    = (string) $flight->Scheduled;
         $estimated_t    = (string) $flight->Estimated;
         $status         = (string) $flight->Status;
-        $status         = ( isset($status) && $status != "" ? $status : NULL ); // Override after cleaning
+        $status         = ( isset($status) && !empty($status) ? $status : NULL ); // Override after cleaning
         $direction      = 'departure';
         $bound          = (string) $flight->CarrierType;
 
@@ -50,7 +50,7 @@
             echo "\t\tFlight $flight_no Found\n";
 
             // Check if status changed... Then update
-            if( !empty($status) && $found['status'] != $status ) {
+            if( $status != NULL && $found['status'] != $status ) {
 
                 // Update
                 $data = [
