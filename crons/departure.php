@@ -50,7 +50,7 @@
             echo "\t\tFlight $flight_no Found\n";
 
             // Check if status changed... Then update
-            if( $status != NULL && $found['status'] != $status ) {
+            if( $found['status'] != $status ) {
 
                 // Update
                 $data = [
