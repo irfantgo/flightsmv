@@ -1,6 +1,6 @@
 <?php   
 
-    $dbConn = new MysqliDb (DBHOST, DBUSER, DBPASS, DBNAME);
+    $dbConn = new MysqliDb ($dbConfig['DBHOST'], $dbConfig['DBUSER'], $dbConfig['DBPASS'], $dbConfig['DBNAME']);
 
     $name = explode(' ', $telegram->text);
 
