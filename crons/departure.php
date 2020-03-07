@@ -65,7 +65,8 @@
 
             }
 
-            echo "FOUND ID: " . $found['ID'] . "\n\n";
+            print_r($found);
+            echo "\n\n";
 
         }
         // Else, add new flight
