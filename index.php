@@ -1,5 +1,8 @@
 <?php
 
+    echo "WOO";
+    exit;
+
     // Include Configuration
     include __DIR__ . '/config.php';
 
