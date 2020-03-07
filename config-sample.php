@@ -2,6 +2,7 @@
 
     // Bot Information
     define('BOT_TOKEN', '');
+    define('BOT_WEBHOOK', '');
 
     // Database Configuration
     $dbConfig = [
