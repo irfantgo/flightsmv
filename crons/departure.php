@@ -44,7 +44,7 @@
         $dbConn->where('scheduled_d', $scheduled_d);
         $dbConn->where('scheduled_t', $scheduled_t);
         $dbConn->where('direction', $direction);
-        $found = $dbConn->get('flightinfo');
+        $found = $dbConn->getOne('flightinfo');
 
         // If flight found
         if( !empty($found) ) {
@@ -64,9 +64,6 @@
                 $dbConn->update('flightinfo', $data);
 
             }
-
-            print_r($found);
-            echo "\n\n";
 
         }
         // Else, add new flight
