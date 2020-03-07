@@ -25,7 +25,7 @@
                 $response_text .= strtoupper($flight['direction']) . "\n";
                 $response_text .= "Date: " . $flight['scheduled_d'] . "\n";
                 $response_text .= "Time: " . $flight['scheduled_t'] . "\n"; 
-                $response_text .= "Status: " . $flight['flight_status'] . "\n"; 
+                $response_text .= "Status: " . ($flight['flight_status'] ? $flight['flight_status'] : 'Not Available') . "\n"; 
                 $response_text .= "----------------------------\n"; 
 
             }
