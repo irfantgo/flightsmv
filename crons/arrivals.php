@@ -13,7 +13,7 @@
     include dirname(__DIR__) . '/vendor/autoload.php';
     
     // Initialize Database
-    $dbConn = new MysqliDb (DBHOST, DBUSER, DBPASS, DBNAME);
+    $dbConn = new MysqliDb ($dbConfig['DBHOST'], $dbConfig['DBUSER'], $dbConfig['DBPASS'], $dbConfig['DBNAME']);
 
     // Linked
     $depart_string = file_get_contents(ARRIVALS_LINK);
