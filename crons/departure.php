@@ -48,7 +48,8 @@
 
         // If flight found
         if( !empty($found) ) {
-            echo "\t\tFlight $flight_no Found\n";
+            echo "\tFlight $flight_no Found\n";
+            echo "STATUS: $status\n\n";
 
             // Check if status changed... Then update
             if( !empty($status) && $found['status'] != $status ) {
