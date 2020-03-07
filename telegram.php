@@ -10,7 +10,7 @@
     {
         public $command, $text;
         private $prefix_url = '';
-        protected $chat_id = null, $bot_token = null;
+        protected $chat_id = null, $username = null, $bot_token = null;
         protected $updates_chunk;
 
         public function __construct( $bot_token )
@@ -43,6 +43,15 @@
         public function get_chat_id()
         {
            return $this->chat_id; 
+        }
+
+        /**
+         * Get username
+         * @return string
+         */
+        public function get_username()
+        {
+           return $this->updates_chunk->message->chat->username;
         }
 
         /**
@@ -103,6 +112,70 @@
             }
 
             return $this->update_chunk;
+        }
+
+        /**
+         * Set webhook
+         * @return boolean
+         */
+        public function set_webhook( $url )
+        {
+
+            $data['url'] = $url;
+            $url = $this->prefix_url . 'setWebhook';
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_output = curl_exec($ch);
+            curl_close ($ch);
+
+            return $server_output;
+
+        }
+
+        /**
+         * Get current webhook
+         * @return boolean
+         */
+        public function get_webhook()
+        {
+
+            $url = $this->prefix_url . 'getWebhookInfo';
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_output = curl_exec($ch);
+            curl_close ($ch);
+
+            return $server_output;
+
+        }
+
+        /**
+         * Delete current webhook
+         * @return boolean
+         */
+        public function delete_webhook()
+        {
+
+            $url = $this->prefix_url . 'deleteWebhook';
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_output = curl_exec($ch);
+            curl_close ($ch);
+
+            return $server_output;
+
         }
 
         /**
