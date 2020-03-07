@@ -33,6 +33,7 @@
         $scheduled_t    = (string) $flight->Scheduled;
         $estimated_t    = (string) $flight->Estimated;
         $status         = (string) $flight->Status;
+        $status         = ( isset($status) && $status != "" ? $status : NULL ); // Override after cleaning
         $direction      = 'departure';
         $bound          = (string) $flight->CarrierType;
 
@@ -49,13 +50,13 @@
             echo "\t\tFlight $flight_no Found\n";
 
             // Check if status changed... Then update
-            if( isset($status) && $found['status'] != $status ) {
+            if( !empty($status) && $found['status'] != $status ) {
 
                 // Update
                 $data = [
-                    'estimated_t'   => (isset($status) && $status == "DE" ? NULL : date('H:i', strtotime($estimated_t))),
-                    'status_int'    => (isset($status) || $status == "" ? NULL : $status),
-                    'flight_status' => (isset($status) || $status == "" ? NULL : $statues[$status])
+                    'estimated_t'   => (!empty($status) && $status == "DE" ? NULL : date('H:i', strtotime($estimated_t))),
+                    'status_int'    => (empty($status) ? NULL : $status),
+                    'flight_status' => (empty($status) ? NULL : $statues[$status])
                 ];
                 
                 $dbConn->where('ID', $found['ID']);
@@ -76,8 +77,8 @@
                 'scheduled_d'   => date('Y-m-d', strtotime($scheduled_d)),
                 'scheduled_t'   => date('H:i', strtotime($scheduled_t)),
                 'estimated_t'   => ($status == "DE" ? NULL : date('H:i', strtotime($estimated_t))),
-                'status_int'    => (isset($status) || $status == "" ? NULL : $status),
-                'flight_status' => (isset($status) || $status == "" ? NULL : $statues[$status]),
+                'status_int'    => (empty($status) ? NULL : $status),
+                'flight_status' => (empty($status) ? NULL : $statues[$status]),
                 'airline_img'   => FLIGHT_LOGO_PREFIX.strtolower($airline_id).'.gif',
                 'direction'     => $direction,
                 'bound'         => $bound
