@@ -71,23 +71,28 @@ class Users extends \Heliumframework\Model
     public function create( $dataset )
     {
 
-        $dd['username'] = $dataset['username'];
-        $dd['display_name'] = $dataset['display_name'];
-        $dd['email'] = $dataset['email'];
-        $dd['password'] = $dataset['password'];
-        $dd['salt'] = $dataset['salt'];
-        $dd['first_loggedIn'] = $dataset['first_loggedIn'];
-        $dd['last_loggedIn'] = $dataset['last_loggedIn'];
-        $dd['group_id'] = $dataset['group_id'];
-        $dd['isActive'] = $dataset['isActive'];
-        $dd['joined_dt'] = $dataset['joined_dt'];
+        $dd['username']         = $dataset['username'];
+        $dd['display_name']     = $dataset['display_name'];
+        $dd['email']            = $dataset['email'];
+        $dd['password']         = $dataset['password'];
+        $dd['salt']             = $dataset['salt'];
+        $dd['first_loggedIn']   = $dataset['first_loggedIn'];
+        $dd['last_loggedIn']    = $dataset['last_loggedIn'];
+        $dd['group_id']         = $dataset['group_id'];
+        $dd['isActive']         = 0; // By default new users are inactive, until verified
+        $dd['isVerified']       = 0; // By default new users account has not been verified
+        $dd['verify_code']      = $dataset['verify_code'];
+        $dd['joined_dt']        = date('Y-m-d H:i:s');
 
         if( $this->insert( $dd ) ) {
 
             // Create user meta information
             $ndd = [
-                'user_id' => $this->last_record_id,
-                'bg_image' => $dd['background']
+                'user_id'   => $this->last_record_id,
+                'bg_image'  => $dataset['background'],
+                'dv_name'   => $dataset['dhi_name'],
+                'dv_bio'    => $dataset['dhi_bio'],
+                'en_bio'    => $dataset['eng_bio']
             ];
 
             $this->conn->insert($this->tbl_users_meta, $ndd);
@@ -144,6 +149,23 @@ class Users extends \Heliumframework\Model
         }
 
         return false;
+
+    }
+
+    /**
+     * Get user meta information
+     * @param int $userid
+     */
+    public function get_user_meta( $userid )
+    {
+
+        $this->conn->where('user_id', $userid);
+        $r = $this->conn->getOne('user_meta');
+        if( !empty($r) ) {
+            return $r;
+        }
+
+        return [];
 
     }
 

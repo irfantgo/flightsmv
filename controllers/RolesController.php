@@ -29,7 +29,7 @@ class RolesController extends Controller
     {
 
         // Authenticate User
-        $this->viewAuthenticate( 'CR_ROLES' );
+        $this->viewAuthenticate( 'MNG_ROLES' );
 
         $this->view('cpanel.roles.create');
     }
@@ -41,7 +41,7 @@ class RolesController extends Controller
     {
 
         // Authenticate User
-        $this->ajaxAuthentication( 'CR_ROLES' );
+        $this->ajaxAuthentication( 'MNG_ROLES' );
 
         // Authenticate Form
         $form_requirments = [
@@ -89,7 +89,7 @@ class RolesController extends Controller
     public function update( $id = null )
     {
 
-        $this->viewAuthenticate( 'UP_ROLES' );
+        $this->viewAuthenticate( 'MNG_ROLES' );
         
         $rolesModel = new Roles();
         $role = $rolesModel->find($id);
@@ -109,7 +109,7 @@ class RolesController extends Controller
     {
 
         // Authenticate User
-        $this->ajaxAuthentication( 'UP_ROLES' );
+        $this->ajaxAuthentication( 'MNG_ROLES' );
 
         // Authenticate Form
         $form_requirments = [
@@ -161,7 +161,7 @@ class RolesController extends Controller
     public function destroy($id)
     {
 
-        $this->ajaxAuthentication( 'RM_ROLES' );
+        $this->ajaxAuthentication( 'MNG_ROLES' );
 
         $rolesModel = new Roles();
         if( $rolesModel->delete($id) ) {

@@ -20,7 +20,7 @@ class GroupsController extends Controller
     {  
 
         // Authenticate User
-        $this->viewAuthenticate(["CR_GROUPS", "UP_GROUPS"]);
+        $this->viewAuthenticate( 'MNG_GROUPS' );
 
         $groupsModel = new Groups();
         $groups = $groupsModel->_get();
@@ -47,7 +47,7 @@ class GroupsController extends Controller
     {
 
         // Authenticate User
-        $this->viewAuthenticate( 'CR_GROUPS' ); 
+        $this->viewAuthenticate( 'MNG_GROUPS' ); 
 
         // Fetch all the roles
         $rolesModel = new Roles();
@@ -63,7 +63,7 @@ class GroupsController extends Controller
     {
 
         // Authenticate User
-        $this->ajaxAuthentication( 'CR_GROUPS' );
+        $this->ajaxAuthentication( 'MNG_GROUPS' );
 
         $form_requirements = [
             'group_name' => [
@@ -108,7 +108,7 @@ class GroupsController extends Controller
     public function update( $id = null )
     {
         
-        $this->viewAuthenticate( 'CR_GROUPS' );
+        $this->viewAuthenticate( 'MNG_GROUPS' );
 
         // Fetch the group
         $groupsModel = new Groups();
@@ -135,7 +135,7 @@ class GroupsController extends Controller
     {
 
         // Authenticate User
-        $this->ajaxAuthentication( 'UP_GROUPS' );
+        $this->ajaxAuthentication( 'MNG_GROUPS' );
 
         $form_requirements = [
             'group_name' => [

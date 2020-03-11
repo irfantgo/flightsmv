@@ -19,7 +19,7 @@ class LoginController extends Controller
 
         // Redirect User If logged in
         if( Auth::isLoggedIn() ) {
-            redirectTo('/dashboard');
+            redirectTo('/admin/dashboard');
         }
 
         $this->view('cpanel.login.show');   
@@ -46,131 +46,7 @@ class LoginController extends Controller
 
 
         // Redirect User to Dashboard
-        redirectTo('/dashboard');
-
-    }
-
-    /**
-     * Login using the active directory
-     */
-    public function adlogin()
-    {
-
-        /**
-         * Few steps to follow
-         * ---------------------
-         * 1. Login using AD Login credentials
-         * 2. Check whether the user is already in the system
-         * 3. If user exists, give your the correct roles
-         */
-
-        // Form Validation
-        $formRequirments = [
-            'username' => [
-                'required' => true,
-                'label' => 'Username'
-            ],
-            'password' => [
-                'required' => true,
-                'label' => 'Password'
-            ]
-        ];
-
-        $validate = new Validate();
-        $validation = $validate->check($this->formData, $formRequirments);
-
-        // Check if validation passed
-        if( $validation->passed() ) {
-
-            // User authentication by AD
-            $ch = curl_init();
-
-            curl_setopt($ch, CURLOPT_URL,"http://10.2.2.34/adlogin/index.php");
-            curl_setopt($ch, CURLOPT_POST, 1);
-
-            // In real life you should use something like:
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array('username' => $this->formData['username'], 'password' => $this->formData['password'])));
-
-            // Receive server response ...
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-            $server_output = curl_exec($ch);
-
-            curl_close ($ch);
-
-            $result = json_decode($server_output);
-
-            if( $result->status ) {
-
-                // Look up for user
-                $userModel = new Users();
-                $user = $userModel->username($this->formData['username']);
-
-                // Check whether user is registered and active in inventory system
-                if( !empty($user) ) {
-
-                    // Fetch user group information
-                    $groupModel = new Groups();
-                    $group = $groupModel->find($user['group_id']);
-
-                    // Check whether the user if active
-                    if( $user['isActive'] == true ) {
-
-                        // Fetch user's mapped departments
-                        $mapped_departments = $userModel->get_mapped_departments( $user['user_id'] );
-
-                        $userSession = [
-                            'user_id'       => $user['user_id'],
-                            'username'      => $user['username'],
-                            'display_name'  => $user['display_name'],
-                            'email'         => $user['email'],
-                            'bg_image'      => $user['bg_image'],
-                            'roles'         => ( $group['group_roles'] == NULL ? [] : explode(':', $group['group_roles']) ),
-                            'departments'   => $mapped_departments
-                        ];
-
-                        Auth::setUserSession($userSession);
-
-                        // Update only if the first_loggedIn value is NULL
-                        if( $user['first_loggedIn'] == NULL ) {
-                            $userModel->update_field( $user['user_id'], 'first_loggedIn', date('Y-m-d H:i:s') );
-                        }
-                        
-                        $userModel->update_field( $user['user_id'], 'last_loggedIn', date('Y-m-d H:i:s') );
-
-                        $this->formResponse = [
-                            'status' => true,
-                            'textMessage' => 'Welcome, ' . $user['display_name'],
-                            'data_ns' => '/dashboard'
-                        ];
-
-                    }
-                    // Else, notify user is in-active
-                    else {
-                        $this->formResponse['errors'][] = "Your account is in-activate";
-                    }
-
-                }
-                // Else, notify that user is not found in the system
-                else {
-                    $this->formResponse['errors'][] = 'User not found in the inventory system';
-                }
-
-                
-            } else {
-                $this->formResponse['errors'][] = 'Invalid username and/or password';
-                $this->formResponse['errors'][] = $result->message;
-            }
-
-        }
-        // Else, send error
-        else {
-            $this->formResponse['error_fields'] = $validation->errors();
-        }
-
-        // Output the data
-        $this->send_json_response();
-
+        redirectTo('/admin/dashboard');
 
     }
 
@@ -208,8 +84,8 @@ class LoginController extends Controller
                 // Check if passport is correct
                 if( $currentUser['password'] == Hash::make($this->formData['password'], $currentUser['salt']) ) {
 
-                    // Check whether the user if active
-                    if( $currentUser['isActive'] == true ) {
+                    // Check whether the user if active and verified
+                    if( $currentUser['isActive'] == true && $currentUser['isVerified'] == true ) {
 
                         $userSession = [
                             'user_id'       => $currentUser['user_id'],
@@ -231,7 +107,7 @@ class LoginController extends Controller
                         $this->formResponse = [
                             'status' => true,
                             'textMessage' => 'Welcome, ' . $currentUser['display_name'],
-                            'data_ns' => '/login/notifications'
+                            'data_ns' => '/dashboard'
                         ];
 
                     }
@@ -277,7 +153,7 @@ class LoginController extends Controller
         Session::delete('user_notifications');
 
         // Redirect to Login Page
-        redirectTo('/login');
+        redirectTo(_env('LOGIN_URL'));
     }
 
 }

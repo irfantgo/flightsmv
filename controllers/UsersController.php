@@ -8,6 +8,7 @@ use Heliumframework\Auth;
 use Heliumframework\Controller;
 use Heliumframework\Validate;
 use Heliumframework\Session;
+use Heliumframework\Hash;
 use Svg\Tag\Group;
 
 class UsersController extends Controller
@@ -32,7 +33,7 @@ class UsersController extends Controller
     }
 
     /**
-     * Create new store keeper
+     * Create new user
      */
     public function create()
     {
@@ -43,22 +44,14 @@ class UsersController extends Controller
         // Fetch all groups
         $groupsModel = new Groups();
         $groups = $groupsModel->_get();
-
-        // Fetch all departments
-        $departmentsModel = new Departments();
-        $departments = $departmentsModel->_get([
-            'andWhere' => [
-                ['isActive', '1', '=']
-            ]
-        ]);
         
         // Render View
-        $this->view('cpanel.users.create', ['departments' => $departments, 'groups' => $groups]);
+        $this->view('cpanel.users.create', ['groups' => $groups]);
 
     }
 
     /**
-     * Store New Staff Information
+     * Store user information
      */
     public function store()
     {
@@ -92,37 +85,40 @@ class UsersController extends Controller
 
             $userModel = new Users();
 
+            $password = 'News@2020';
+            $salt = Hash::salt(35);
+            $encPass = Hash::make($password, $salt);
+
+            $verifyCode = uniqid();
+
             $dbInput = [
                 'username' => $this->formData['username'],
                 'display_name' => $this->formData['name'],
                 'email' => $this->formData['email'],
-                'contact_no' => '',
-                'password' => '',
-                'salt' => '',
+                'password' => $encPass,
+                'salt' => $salt,
                 'group_id' => $this->formData['group_id'],
-                'first_loggedIn' => NULL,
-                'last_loggedIn' => NULL,
-                'isActive' => 1,
-                'joined_dt' => date('Y-m-d H:i:s'),
-                'background' => 'background.jpg'
+                'verify_code' => $verifyCode,
+                'background' => 'background.jpg',
+                'dv_name'   => $this->formData['dhi_name'],
+                'dv_bio'    => $this->formData['dhi_bio'],
+                'en_bio'    => $this->formData['eng_bio']
             ];
 
             if( $userModel->create($dbInput) ) {
 
-                $lastRecordId = $userModel->last_record_id;
+                // TODO: Send an email to user for verification
+                // Send Verification code in the email link
 
-                // Map all departments
-                if( !empty($this->formData['departments']) ) {
-                    $userModel->map_departments($lastRecordId, $this->formData['departments']);
-                }
-
+                // Send form response
                 $this->formResponse = [
                     'status' => true,
-                    'textMessage' => 'New user created successfully'
+                    'textMessage' => 'User created successfully'
                 ];
 
             }
             else {
+                $this->formResponse['errors'][] = $userModel->conn->getLastError();
                 $this->formResponse['errors'][] = 'Unable to create new user';
             }
 
@@ -156,40 +152,20 @@ class UsersController extends Controller
             error_header(404);
         }
 
+        // User Meta Information
+        $userMeta = $userModel->get_user_meta( $userid );
+
         // Fetch all groups
         $groupsModel = new Groups();
         $groups = $groupsModel->_get();
 
-        // Fetch user's departments
-        $userDepartmentsRecords = $userModel->get_mapped_departments($userid);
-        $userDepartments['dept_id'] = [];
-        $userDepartments['send_mail'] = [];
-        $c = 0;
-        if( !empty($userDepartmentsRecords) ) {
-            foreach( $userDepartmentsRecords as $peh ) {
-                $userDepartments['dept_id'][$c] = $peh['ID'];
-                if( $peh['send_mail'] == 1 ) {
-                    $userDepartments['send_mail'][$c] = $peh['ID'];
-                }
-                $c++;
-            }
-        }
-
-        // Fetch all departments
-        $departmentsModel = new Departments();
-        $departments = $departmentsModel->_get([
-            'andWhere' => [
-                ['isActive', '1', '=']
-            ]
-        ]);
-
         // Render View
-        $this->view('cpanel.users.edit', ['user' => $user, 'departments' => $departments, 'mapped_depts' => $userDepartments, 'groups' => $groups]);
+        $this->view('cpanel.users.edit', ['user' => $user, 'user_meta' => $userMeta, 'groups' => $groups]);
 
     }
 
     /**
-     * Store Updated Staff Information
+     * Store Updated User Information
      * @param int $userid
      */
     public function patch( $userid )
@@ -242,13 +218,12 @@ class UsersController extends Controller
 
             if( $userModel->update( $userid, $dbInput) ) {
 
-                $rr = [
-                    'test' => 'woo',
-                    'abc' => 'wooo'
-                ];
-
-                // Update departments
-                $userModel->update_map_departments($userid, $this->formData['departments']);
+                $userModel->update_user_meta( $userid, [
+                    'dv_name'   => $this->formData['dv_name'],
+                    'dv_bio'    => $this->formData['dhi_bio'],
+                    'en_bio'    => $this->formData['eng_bio'],
+                    'social_media' => $this->formData['social_media']
+                ] );
 
                 $this->formResponse = [
                     'status' => true,

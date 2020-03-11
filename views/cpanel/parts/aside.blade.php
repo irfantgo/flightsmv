@@ -36,23 +36,6 @@
                     @endif
                 @endforeach
                 
-                <li class="nav-header">Departments</li>
-
-                @php
-                    $_navigationLinks = json_decode(file_get_contents(dirname(__DIR__) . '/resources/navigation.json'));
-                @endphp
-
-                @foreach (\Heliumframework\Session::get('user')['departments'] as $dept)
-                    @if(\Heliumframework\Auth::hasPermission(['VIEW_PAYROLL', 'VIEW_ATTENDANCE'])) 
-                    <li class="nav-item has-treeview">
-                        <a href="/department/payroll/{{ $dept['ID'] }}" class="nav-link">
-                            <i class="nav-icon fas fa-history"></i>
-                            <p>{{ $dept['name'] }}</p>
-                        </a>
-                    </li>
-                    @endif
-                @endforeach
-                
             </ul>
         </nav>
       <!-- /.sidebar-menu -->

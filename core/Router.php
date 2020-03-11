@@ -29,54 +29,56 @@ class Router
     public static function loadURL()
     {
 
-        $route          = $_SERVER['REQUEST_URI'];
+        $subfolder      = '';
+        $route          = ltrim($_SERVER['REQUEST_URI'], '/');
         $urlParse       = explode('/', $route);
-        
-        @$controller     = $urlParse[1];
 
+        // Check for admin panel
+        if( $urlParse[0] == 'admin' ) {
+            $subfolder = 'admin';
+        }
+
+        // Check for API
+        if( $urlParse[0] == 'api' ) {
+            $subfolder = 'api';
+        }
+
+        // Check if subfolder is empty
+        if( empty($subfolder) ) {
+            $controller = $urlParse[0];
+            $method = $urlParse[1];
+        }
+        else {
+            $controller = $urlParse[0+1];
+            $method = $urlParse[0+2];
+            $subfolder = $subfolder . '/';
+        }
+
+        $matcher = $subfolder . $controller . '/' . $method;
+        $matcher = rtrim($matcher, '/');
+        
         // Check if the route exists
-        if( array_key_exists($controller, self::$routes) ) {
+        if( array_key_exists($matcher, self::$routes) ) {
             
-            $controllerFile = dirname(__DIR__) . '/controllers/' . self::$routes[$controller]['controller'] . '.php';
+            $controllerFile = dirname(__DIR__) . '/controllers/' . $subfolder. self::$routes[$matcher]['controller'] . '.php';
 
             // Check whether controller file exists
             if( file_exists($controllerFile) ) {
 
-                // Set method
-                // Check for numeric value
-                if( isset($urlParse[3]) && is_numeric($urlParse[3]) ) {
-
-                    // Set numeric special route
-                    if( isset(self::$routes[$urlParse[1].'/'.$urlParse[2].'/{}']) ) {
-                        $method = self::$routes[$urlParse[1].'/'.$urlParse[2].'/{}']['method'];
-                    }
-                    // Set a numeric special route followed by another parameter
-                    elseif( isset(self::$routes[$urlParse[1].'/'.$urlParse[2].'/{}/'.$urlParse[4]]) ) {
-                        $method = self::$routes[$urlParse[1].'/'.$urlParse[2].'/{}/'.$urlParse[4]]['method'];   
-                    }
-                    // Set variables
-                    elseif( isset(self::$routes[$urlParse[1].'/'.$urlParse[2].'/{}/{}']) ) {
-                        $method = self::$routes[$urlParse[1].'/'.$urlParse[2].'/{}/{}']['method'];
-                    }
-                    elseif( isset(self::$routes[$urlParse[1].'/'.$urlParse[2].'/{}/{}/'.$urlParse[5]]) ) {
-                        $method = self::$routes[$urlParse[1].'/'.$urlParse[2].'/{}/{}/'.$urlParse[5]]['method'];
-                    }
-                    
-                } else {
-                    // Show normal route
-                    if( isset(self::$routes[ltrim($route, '/')]['method']) ) {
-                        $method = self::$routes[ltrim($route, '/')]['method'];
-                    }
-
-                }
+                $method = self::$routes[$matcher]['method'];
 
                 // Load the controller
                 include( $controllerFile );
 
-                $controllerToLoad = new self::$routes[$controller]['controller']();
+                $controllerToLoad = new self::$routes[$matcher]['controller']();
 
-                // Remove Controller and Method
-                unset($urlParse[0]); unset($urlParse[1]); unset($urlParse[2]);
+                // Remove anything unwanted
+                if( empty($subfolder) ) {
+                    unset($urlParse[0]); unset($urlParse[1]);
+                }
+                else {
+                    unset($urlParse[0]); unset($urlParse[1]); unset($urlParse[2]);
+                }
 
                 // Set parameters
                 if( !empty($urlParse) ) {

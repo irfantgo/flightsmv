@@ -15,9 +15,8 @@ class Auth
     public static function userLogged()
     {
         if( self::isLoggedIn() == false ) {
-            // Show unauthorised header
-            // error_header(401);
-            redirectTo( '/login' );
+            // Redirect to login page
+            redirectTo( _env('LOGIN_URL') );
         }
     }
 
@@ -56,7 +55,7 @@ class Auth
             // Loop all the permissions
             foreach( $permission as $p ) {
                 // Check whether user has permission
-                if( in_array($p, Session::get('user')['roles']) ) {
+                if( isset(Session::get('user')['roles']) && in_array($p, Session::get('user')['roles']) ) {
                     $ok = true;
                     break;
                 }
@@ -67,7 +66,7 @@ class Auth
         else {
 
             // Check whether user has permission
-            if( in_array($permission, Session::get('user')['roles']) ) {
+            if( isset(Session::get('user')['roles']) && in_array($permission, Session::get('user')['roles']) ) {
                 $ok = true;
             }
 

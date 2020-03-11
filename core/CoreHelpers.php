@@ -175,5 +175,84 @@
         return false;
         
     }
+
+    /**
+     * Log a given message
+     * @param string $message
+     */
+    function log_message( $message )
+    {
+        $logFile = dirname(__DIR__) . '/trash/logFile.txt';
+
+        // Create a file if does not exist
+        if( file_exists($logFile) == false ) {
+            touch($logFile);
+        }
+
+        // Read File
+        $oldContent = file_get_contents($logFile);
+
+        // Append
+        $newContent = date('Y-m-d H:i:s') . "\t";
+        $newContent .= $message . "\n";
+        $newContent .= $oldContent;
+
+        // Write File
+        file_put_contents($logFile, $newContent);
+
+    }
+
+    /**
+     * Thaana Date
+     * @param string $date
+     * @param boolean $show_day
+     * @return string
+     */
+    function thaana_date($date, $show_day = false)
+    {
+
+        $newDate = $date;
+
+        $months = [
+            'ޖެނުއަރީ',
+            'ފެބްރުއަރީ',
+            'މާޗް',
+            'އޭޕްރިލް',
+            'މެއި',
+            'ޖޫން',
+            'ޖުލައި',
+            'އޮގަސްޓް',
+            'ސެޕްޓެމްބަރ',
+            'އޮކްޓޯބަރ',
+            'ނޮވެމްބަރ',
+            'ޑިސެމްބަރ'
+        ];
+
+        $days = [
+            'ހޯމަ',
+            'އަންގާރަ',
+            'ބުދަ',
+            'ބުރާސްފަތި',
+            'ހުކުރު',
+            'ހޮނިހިރު',
+            'އާދިއްތަ'
+        ];
+
+        $year = date('Y', strtotime($date));
+        $month = date('n', strtotime($date)) - 1;
+        $day = date('j', strtotime($date));
+        $day_no = date('N', strtotime($date)) - 1;
+
+        $day_thaana = $days[$day_no];
+
+        $newDate = $day . ' <span class="thaana-text">' . $months[$month]  . '</span> ' . $year;
+
+        if( $show_day ) {
+            $newDate .= ' ,'. $day_thaana;
+        }
+
+        return $newDate;
+
+    }
     
 
