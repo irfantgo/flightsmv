@@ -1,6 +1,6 @@
 <?php
 /**
- * Products Controller
+ * Flight Controller
  * @author Ahmed Shan (@thaanu16)
  * 
  */
@@ -9,7 +9,7 @@ use Heliumframework\Auth;
 use Heliumframework\Controller;
 use Heliumframework\Validate;
 use Heliumframework\Session;
-class ProductsController extends Controller
+class FlightsController extends Controller
 {
 
     public function __construct()
@@ -21,11 +21,8 @@ class ProductsController extends Controller
     public function index( $id = null )
     {
 
-        $productsModel = new Products();
-        $products = $productsModel->get_products();
-
         // Render View
-        $this->view('cpanel.products.show', ['products' => $products]);
+        $this->view('cpanel.flights.show');
 
     }
 
@@ -34,9 +31,6 @@ class ProductsController extends Controller
      */
     public function create()
     {
-
-        // Render View
-        $this->view('cpanel.products.create');
 
     }
 
@@ -54,17 +48,6 @@ class ProductsController extends Controller
      */
     public function update( $product_id )
     {
-
-        // Fetch products
-        $productModel   = new Products();
-        $product        = $productModel->get_product($product_id);
-
-        // Fetch categories
-        $categoriesModel = new Categories();
-        $categories = $categoriesModel->_get();
-
-        // Render View
-        $this->view('cpanel.products.edit', ['product' => $product[0], 'categories' => $categories]);
 
     }
 

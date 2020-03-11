@@ -23,7 +23,10 @@ Heliumframework\Router::get('/notifications', 'NotificationsController@index');
 Heliumframework\Router::get('/dashboard', 'DashboardController@index');
 
 // Flight
-Heliumframework\Router::get('/flight', 'ProductsController@index');
+Heliumframework\Router::get('/flights', 'FlightsController@index');
+
+// Telegram Controller
+Heliumframework\Router::get('/telegram/webhook', 'TelegramController@index');
 
 // Users
 Heliumframework\Router::get('/users', 'UsersController@index');
