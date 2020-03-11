@@ -1,0 +1,38 @@
+{
+    "dashboard" : {
+        "url" : "/dashboard",
+        "icon" : "fa-tachometer-alt",
+        "label" : "Dashboard",
+        "permission" : ""
+    },
+    "departments" : {
+        "url" : "/departments",
+        "icon" : "fa-desktop",
+        "label" : "Departments",
+        "permission" : "MNG_DEPTS"
+    },
+    "applications" : {
+        "url" : "/applications",
+        "icon" : "fa-gamepad",
+        "label" : "Applications",
+        "permission" : "MNG_APPS"
+    },
+    "users" : {
+        "url" : "/users",
+        "icon" : "fa-user-friends",
+        "label" : "Users",
+        "permission" : "MNG_USERS"
+    },
+    "groups" : {
+        "url" : "/groups",
+        "icon" : "fa-user-friends",
+        "label" : "Groups",
+        "permission" : ["CR_GROUPS", "UP_GROUPS"]
+    },
+    "roles" : {
+        "url" : "/roles",
+        "icon" : "fa-shield-alt",
+        "label" : "Roles",
+        "permission" : ["CR_ROLES","UP_ROLES","RM_ROLES"]
+    }
+}
