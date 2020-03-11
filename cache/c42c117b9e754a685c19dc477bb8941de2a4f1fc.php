@@ -1,8 +1,0 @@
-<?php echo $__env->make('cpanel.parts.auth-page-controls', [
-    'navigations' => [
-        ['link' => '/department/payroll/'.$department['ID'], 'label' => 'Payroll', 'permission' => 'VIEW_PAYROLL'],
-        ['link' => '/department/attendance/'.$department['ID'], 'label' => 'Attendance', 'permission' => 'VIEW_ATTENDANCE'],
-        ['link' => '/department/documents/'.$department['ID'], 'label' => 'Documents', 'permission' => 'VIEW_DOCUMENTS'],
-        ['link' => '/department/debug/'.$department['ID'], 'label' => 'Debug', 'permission' => 'DEBUG_ATTENDANCE']
-    ] 
-], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/shan/www/tth/attendance-portal/views/cpanel/attendance/controls.blade.php ENDPATH**/ ?>

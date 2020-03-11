@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html style="height: auto;" lang="en">
 @include('cpanel.html-head')
-<body class="sidebar-mini control-sidebar-open accent-primary">
+<body class="sidebar-mini control-sidebar-slide-open accent-warning">
     
     <div class="wrapper">
 
@@ -34,7 +34,7 @@
 
     {{-- Footer --}}
     <footer class="main-footer">
-        Copyright © <?= date('Y') ?> <strong><a class="text-danger" href="#" target="_blank">TTH ICT/dev</a>.</strong>
+        Copyright © <?= date('Y') ?> <strong><a class="text-danger" href="http://www.codered.mv" target="_blank">CODERED</a>.</strong>
     </footer> 
 
 

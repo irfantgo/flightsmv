@@ -1,5 +1,6 @@
-<?php $__env->startSection('page_title', 'Groups'); ?>
-<?php $__env->startSection('page_content'); ?>
+@extends('cpanel.cpanel')
+@section('page_title', 'Groups')
+@section('page_content')
 
 
 <form action="/groups/store" class="HFForm" method="post" data-na="success-then-redirect-to-next-screen" data-ns="/groups">
@@ -25,14 +26,14 @@
                 </div>
                 <div class="card-body">
                     
-                    <?php $__currentLoopData = $roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    @foreach ($roles as $role)
                         <div class="form-group clearfix">
                             <div class="icheck-primary d-inline">
-                                <input type="checkbox" name="roles[]" value="<?php echo e($role['code']); ?>" id="r_<?php echo e($role['code']); ?>">
-                                <label for="r_<?php echo e($role['code']); ?>"><?php echo e($role['description']); ?></label>
+                                <input type="checkbox" name="roles[]" value="{{ $role['code'] }}" id="r_{{ $role['code'] }}">
+                                <label for="r_{{ $role['code'] }}">{{ $role['description'] }}</label>
                             </div>
                         </div>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    @endforeach
                     
                 </div>
                 <!-- /.card-body -->
@@ -40,8 +41,7 @@
         </div>
     </div>
 
-    <?php echo e(csrf()); ?>
-
+    {{ csrf() }}
 
     <div class="row">
         <div class="col-sm-12">
@@ -52,5 +52,4 @@
 
 </form>
 
-<?php $__env->stopSection(); ?>
-<?php echo $__env->make('cpanel.cpanel', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/shan/www/tth/attendance-portal/views/cpanel/groups/create.blade.php ENDPATH**/ ?>
+@endsection

@@ -1,5 +1,5 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar elevation-4 sidebar-dark-success">
+<aside class="main-sidebar elevation-4 sidebar-dark-danger">
     <!-- Brand Logo -->
     <a href="/dashboard" class="brand-link">
         <img src="{{ assets('img/TTH_Vector_White_full.svg') }}" alt="TTH Logo" class="brand-image img-circle elevation-3" style="opacity: .8">

@@ -1,3 +1,10 @@
-/config.php
+**/.DS_Store
+.env
+composer.lock
+message.log
+/cache/
 /vendor/
-dump
+/storage/
+/crons/trash/
+/resources/front_en_navigation.json
+/resources/front_dv_navigation.json
