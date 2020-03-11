@@ -1,6 +1,5 @@
 
 <!-- jQuery -->
-<script src="{{ assets( 'js/jquery.js' ) }}"></script>
 <script src="{{ assets( 'adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js' ) }}"></script>
 <script src="{{ assets( 'adminlte/plugins/inputmask/jquery.inputmask.bundle.js' ) }}"></script>
 <script src="{{ assets( 'adminlte/plugins/moment/moment.min.js' ) }}"></script>
