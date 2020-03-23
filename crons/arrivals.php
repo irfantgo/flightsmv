@@ -3,6 +3,8 @@
      * FETCH ARRIVAL FLIGHT INFORMATION FROM FIS
      */
 
+     echo "Job running\n";
+
     include dirname(__DIR__) . '/init.php';
     include dirname(__DIR__) . '/telegram.php';
     include dirname(__DIR__) . '/requests.php';
@@ -22,6 +24,10 @@
     $departure_flights = [];
     $count = 0;
 
+    print_r($depart_xml);
+
+    // Notify that dataset was empty
+    if(empty($depart_xml)) { echo "Dataset is empty\n"; }
 
     if(!empty($depart_xml)) : foreach( $depart_xml->Flight as $flight ) :
 
@@ -93,4 +99,5 @@
 
     endforeach; endif;
 
+    echo "Done\n";
 
