@@ -6,7 +6,7 @@
 	<div class="login-box">
 		<div class="login-logo">
 			<a href="/">
-				<img src="{{ assets('img/TTH_Vector.svg') }}" alt="">
+				<img src="{{ assets('img/flightmv_v2.jpg') }}" style="width: 60%; margin: 30px 0;" alt="">
 				<br>
 				{{ env('APP_NAME') }}
 			</a>

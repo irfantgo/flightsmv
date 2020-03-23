@@ -2,7 +2,7 @@
 <aside class="main-sidebar elevation-4 sidebar-dark-danger">
     <!-- Brand Logo -->
     <a href="/dashboard" class="brand-link">
-        <img src="{{ assets('img/TTH_Vector_White_full.svg') }}" alt="TTH Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="{{ assets('img/flightmv_v2.jpg') }}" alt="TTH Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">{{ env('APP_NAME') }}</span>
     </a>
 
