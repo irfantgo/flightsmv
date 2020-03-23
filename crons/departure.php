@@ -1,19 +1,16 @@
 <?php
     /**
-     * FETCH DEPATURE FLIGHT INFORMATION FROM FIS
+     * FETCH DEPARTURE FLIGHT INFORMATION FROM FIS
      */
 
-    include dirname(__DIR__) . '/init.php';
-    include dirname(__DIR__) . '/telegram.php';
-    include dirname(__DIR__) . '/requests.php';
-    include dirname(__DIR__) . '/functions.php';
-    include dirname(__DIR__) . '/definitions.php';
+    echo "Departure Job Running\n";
 
-    // Include Composer Modules
-    include dirname(__DIR__) . '/vendor/autoload.php';
+    // Bootstrap
+    include __DIR__ . '/bootstrap.php';
     
     // Initialize Database
-    $dbConn = new MysqliDb ($dbConfig['DBHOST'], $dbConfig['DBUSER'], $dbConfig['DBPASS'], $dbConfig['DBNAME']);
+    $dbConn = new MysqliDb ( _env('DB_HOST'), _env('DB_USER'), _env('DB_PASS'), _env('DB_NAME') );
+
 
     // Linked
     $depart_string = file_get_contents(DEPARTURE_LINK);
@@ -22,6 +19,8 @@
     $departure_flights = [];
     $count = 0;
 
+    // Notify that dataset was empty
+    if(empty($depart_xml)) { echo "Dataset is empty\n"; }
 
     if(!empty($depart_xml)) : foreach( $depart_xml->Flight as $flight ) :
 
@@ -35,7 +34,7 @@
         $status         = (string) $flight->Status;
         $status         = ( isset($status) && !empty($status) ? $status : NULL ); // Override after cleaning
         $status         = trim($status); // Override after cleaning
-        $direction      = 'departure';
+        $direction      = 'arrival';
         $bound          = (string) $flight->CarrierType;
 
 
@@ -85,7 +84,7 @@
             if( ! $dbConn->insert('flightinfo', $data)){
 
                 // Write errors
-                wToFile("ERROR: " . $dbConn->getLastError());
+                log_message("ERROR: " . $dbConn->getLastError(), __DIR__ . '/trash/log.txt');
                 
             }
             
@@ -93,4 +92,5 @@
 
     endforeach; endif;
 
+    echo "Done\n";
 
