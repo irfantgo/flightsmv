@@ -11,11 +11,11 @@
     ]
 ]])
 
-@if ( empty($users) )
-    @include('cpanel.parts.callouts', ['callout_type' => 'info', 'callout_title' => 'No Users Found', 'callout_message' => 'Looks like there are no users to list'])
-@else
 <div class="card card-default color-palette-box">
     <div class="card-body">
+        @if ( empty($users) )
+            <p>No users found</p>
+        @else
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -36,15 +36,15 @@
                         <td>{!! ( $data['isVerified'] ? ' <span class="text-green">Verified</span> ' : '<span class="text-red">Pending Verification</span>' ) !!}</td>
                         <td>{!! ( $data['isActive'] ? ' <span class="text-green">Account is Active</span> ' : '<span class="text-red">Account is In-Active</span>' ) !!}</td>
                         <td>
-                            <a href="/admin/users/edit/{{ $data['user_id'] }}" class="btn btn-sm btn-primary btn-flat">Edit</a>
+                            <a href="/admin/users/edit/{{ $data['uid'] }}" class="btn btn-sm btn-primary btn-flat">Edit</a>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
-        </div>
-        <!-- /.card-body -->
+        @endif
     </div>
-@endif
+    <!-- /.card-body -->
+</div>
 
 @endsection

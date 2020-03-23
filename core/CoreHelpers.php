@@ -97,14 +97,20 @@
      * @param int $errorcode
      * @return void
      */
-    function error_header( $errorcode )
+    function error_header( Int $errorcode )
     {
         switch( $errorcode ) {
+            case 400:
+                header("HTTP/1.0 400 Bad Request");
+                include(dirname(__DIR__) . '/errors/400.html'); exit; break;
             case 404:
+                header("HTTP/1.0 404 Not Found");
                 include(dirname(__DIR__) . '/errors/404.html'); exit; break;
             case 500:
+                header("HTTP/1.0 500 Internal Server Error");
                 include(dirname(__DIR__) . '/errors/500.html'); exit; break;
             case 401:
+                header("HTTP/1.0 401 Unauthorized");
                 include(dirname(__DIR__) . '/errors/401.html'); exit; break;
             case 419:
                 include(dirname(__DIR__) . '/errors/419.html'); exit; break;
@@ -179,10 +185,15 @@
     /**
      * Log a given message
      * @param string $message
+     * @param string $file_path | optional
      */
-    function log_message( $message )
+    function log_message( $message, $file_path = '' )
     {
-        $logFile = dirname(__DIR__) . '/trash/logFile.txt';
+        $logFile = dirname(__DIR__) . '/logs/logFile.txt';
+
+        if( $file_path != '' ) {
+            $logFile = $file_path;
+        }
 
         // Create a file if does not exist
         if( file_exists($logFile) == false ) {
@@ -199,59 +210,6 @@
 
         // Write File
         file_put_contents($logFile, $newContent);
-
-    }
-
-    /**
-     * Thaana Date
-     * @param string $date
-     * @param boolean $show_day
-     * @return string
-     */
-    function thaana_date($date, $show_day = false)
-    {
-
-        $newDate = $date;
-
-        $months = [
-            'ޖެނުއަރީ',
-            'ފެބްރުއަރީ',
-            'މާޗް',
-            'އޭޕްރިލް',
-            'މެއި',
-            'ޖޫން',
-            'ޖުލައި',
-            'އޮގަސްޓް',
-            'ސެޕްޓެމްބަރ',
-            'އޮކްޓޯބަރ',
-            'ނޮވެމްބަރ',
-            'ޑިސެމްބަރ'
-        ];
-
-        $days = [
-            'ހޯމަ',
-            'އަންގާރަ',
-            'ބުދަ',
-            'ބުރާސްފަތި',
-            'ހުކުރު',
-            'ހޮނިހިރު',
-            'އާދިއްތަ'
-        ];
-
-        $year = date('Y', strtotime($date));
-        $month = date('n', strtotime($date)) - 1;
-        $day = date('j', strtotime($date));
-        $day_no = date('N', strtotime($date)) - 1;
-
-        $day_thaana = $days[$day_no];
-
-        $newDate = $day . ' <span class="thaana-text">' . $months[$month]  . '</span> ' . $year;
-
-        if( $show_day ) {
-            $newDate .= ' ,'. $day_thaana;
-        }
-
-        return $newDate;
 
     }
     

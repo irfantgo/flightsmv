@@ -46,6 +46,7 @@
      * ----------
      * Load all core files
      */
+    require(__DIR__ . '/Requests.php');
     require(__DIR__ . '/Controller.php');
     require(__DIR__ . '/Model.php');
     require(__DIR__ . '/Auth.php');
@@ -57,9 +58,8 @@
      * ---------------
      * Error showing or logging
      */
-    error_reporting(0);
+    ini_set('display_errors', 0);
     if( _env('DEV_MODE') == 'true' ){ 
-        error_reporting(E_ERROR | E_WARNING | E_PARSE);
         ini_set('display_errors', 1);
     }
 
@@ -70,29 +70,12 @@
      * Set the timezone
      */
     date_default_timezone_set( _env('TIMEZONE') );
-
-
-    /**
-     * MODELS
-     * ---------------
-     * Load all the models
-     */
-    $models = scandir(dirname(__DIR__) . '/models');
-    foreach( $models as $model ) {
-        $ext = pathinfo($model)['extension'];
-        if( $ext == 'php' ) {
-            include_once(dirname(__DIR__) . '/models/' . $model);
-        }
-    }
-
     
     /**
      * SESSION
      * ---------------
      * Initialize Session
      */
-    // ini_set('session.cookie_lifetime', 60 * 60 * 24 * 100);
-    // ini_set('session.gc_maxlifetime', 60 * 60 * 24 * 100);
     session_start();
 
 
@@ -101,26 +84,7 @@
      * --------------
      * Router Module
      */
-    $__xx__ = explode('/', $_SERVER['REQUEST_URI']);
-    array_shift($__xx__);
-    if( $__xx__[0] == 'api' ) {
-        include __DIR__ . '/ApiRouter.php';
-        include dirname(__DIR__) . '/ApiRouting.php';
 
-        /**
-         * Load the requested URL
-         */
-        Heliumframework\ApiRouter::loadURL();
-    } else {
-        include __DIR__ . '/Router.php';
-        include dirname(__DIR__) . '/Routing.php';
-        
-        /**
-         * Load the requested URL
-         */
-        Heliumframework\Router::loadURL();
-    }
-    
-
-    // Only used for debugging
-    // Heliumframework\Router::test();
+    include __DIR__ . '/Router.php';
+    \Heliumframework\Router::load(dirname(__DIR__) . '/Routing.php')
+        ->direct(\Heliumframework\Requests::uri(), \Heliumframework\Requests::method());

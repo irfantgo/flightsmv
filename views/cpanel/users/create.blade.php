@@ -49,7 +49,7 @@
 
                     <div class="form-group">
                         <label class="col-form-label" for="name">Name in Dhivehi</label>
-                        <input type="text" class="form-control thaana-input" id="name" name="name" autocomplete="off" >
+                        <input type="text" class="form-control thaana-input" id="name_dv" name="name_dv" autocomplete="off" >
                     </div>
 
                     <div class="form-group">
@@ -60,6 +60,11 @@
                     <div class="form-group">
                         <label class="col-form-label" for="eng_bio">Bio in English</label>
                         <textarea class="form-control" id="eng_bio" name="eng_bio" row="8" autocomplete="off" ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-form-label" for="social_media">Social Media Link (Twitter, Facebook, LinkedIn)</label>
+                        <input type="text" class="form-control" id="social_media" name="social_media" autocomplete="off" >
                     </div>
                     
                 </div>

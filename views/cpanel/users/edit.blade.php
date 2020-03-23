@@ -85,6 +85,7 @@
         <div class="col-sm-12">
             <button type="submit" name="submit" id="submit" class="btn btn-primary">Edit</button>
             <a href="/admin/users" class="btn btn-flat">Cancel</a>
+            <a class="float-right btn btn-danger HFActionBtn" href="/admin/users/resetpass/{{ $user['ID'] }}" data-title="Reset Password" data-text="A new random password will be generated and emailed to the user." data-type="warning" data-ns="/admin/users/edit/{{ $user['ID'] }}">Reset Password</a>
         </div>
     </div>
 

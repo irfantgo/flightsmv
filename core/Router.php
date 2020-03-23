@@ -4,132 +4,93 @@
  * @author Ahmed Shan (@thaanu16)
  */
 namespace Heliumframework;
+
+use \Heliumframework\Requests;
+use Exception;
+
 class Router
 {
 
-    static protected $routes = [];
-    static protected $parameters = [];
+    static protected $routes = [
+        'GET' => [],
+        'POST' => []
+    ];
 
-    /**
-     * Handle GET methods
-     * @param string $route
-     * @param string $controllerMethod
-     */
-    public static function get( $route = '/', $controllerMethod )
+    public static function load( $file )
     {
-
-        $explode            = explode('@', $controllerMethod);
-        self::$routes[ltrim($route,'/')] = ['controller' => $explode[0], 'method' => $explode[1] ];
-
+        $router = new static;
+        require $file;
+        return $router;
     }
 
     /**
-     * Load the URL
+     * Server a GET request
      */
-    public static function loadURL()
+    public static function get( $uri, $controller )
+    {
+        $split = explode('@', $controller);
+        self::$routes['GET'][$uri] = ['controller' => $split[0], 'method' => $split[1]];
+    }
+
+    /**
+     * Server a POST request
+     */
+    public static function post( $uri, $controller )
+    {
+        $split = explode('@', $controller);
+        self::$routes['POST'][$uri] = ['controller' => $split[0], 'method' => $split[1]];
+    }
+
+    /**
+     * Redirect traffic to requested controller
+     * @param string $uri
+     * @param string $requestType
+     */
+    public function direct( $uri, $requestType )
     {
 
-        $subfolder      = '';
-        $route          = ltrim($_SERVER['REQUEST_URI'], '/');
-        $urlParse       = explode('/', $route);
+        if( array_key_exists(trim($uri), self::$routes[$requestType]) ) {
 
-        // Check for admin panel
-        if( $urlParse[0] == 'admin' ) {
-            $subfolder = 'admin';
-        }
+            $__x = self::$routes[$requestType][$uri];
 
-        // Check for API
-        if( $urlParse[0] == 'api' ) {
-            $subfolder = 'api';
-        }
+            $controller_file = dirname(__DIR__) . '/controllers/' . $__x['controller'] . '.php';
 
-        // Check if subfolder is empty
-        if( empty($subfolder) ) {
-            $controller = $urlParse[0];
-            $method = $urlParse[1];
-        }
-        else {
-            $controller = $urlParse[0+1];
-            $method = $urlParse[0+2];
-            $subfolder = $subfolder . '/';
-        }
+            // Check if controller exists
+            if( file_exists( $controller_file ) ) {
 
-        $matcher = $subfolder . $controller . '/' . $method;
-        $matcher = rtrim($matcher, '/');
-        
-        // Check if the route exists
-        if( array_key_exists($matcher, self::$routes) ) {
-            
-            $controllerFile = dirname(__DIR__) . '/controllers/' . $subfolder. self::$routes[$matcher]['controller'] . '.php';
+                require $controller_file;
 
-            // Check whether controller file exists
-            if( file_exists($controllerFile) ) {
+                // Create new instance of the controller
+                $controller = new $__x['controller']();
 
-                $method = self::$routes[$matcher]['method'];
+                // Check if method exists
+                if( method_exists($controller, $__x['method']) ) {
 
-                // Load the controller
-                include( $controllerFile );
+                    // Call method and parse parameters
+                    call_user_func_array( [$controller, $__x['method']], Requests::params() );
 
-                $controllerToLoad = new self::$routes[$matcher]['controller']();
-
-                // Remove anything unwanted
-                if( empty($subfolder) ) {
-                    unset($urlParse[0]); unset($urlParse[1]);
                 }
+                // Else, throw exception
                 else {
-                    unset($urlParse[0]); unset($urlParse[1]); unset($urlParse[2]);
-                }
-
-                // Set parameters
-                if( !empty($urlParse) ) {
-                    self::$parameters = array_values($urlParse);
-                }
-
-                // Check whether the metho is allowed                    
-                if( isset($method) && method_exists( $controllerToLoad, $method) ) {
-                        
-                    $params = ( !empty(self::$parameters) ? self::$parameters : [] );
-                    call_user_func_array( [$controllerToLoad, $method], $params );
-                    
-                }
-                // Else, send a 404 error
-                else {
-
-                    // Log the error
-                    error_log("Unable to find method");
-
-                    // Show 404 Page Not Found
+                    // throw new Exception('Method not found');
+                    log_message("Method not found");
                     error_header(404);
-
                 }
 
             }
-            // Else, sende a 404 error
             else {
-
-                // Show 404 Page Not Found
+                log_message("Controller not found");
                 error_header(404);
-
             }
-            
+
         }
         else {
 
-            // Log the error
-            error_log('Controller file not found');
-
-            // Show 404 Page Not Found
+            log_message("No route set");
             error_header(404);
 
         }
 
-
-    }
-
-
-    public static function test()
-    {
-        echo '<pre>'; print_r(self::$routes); echo '</pre>';
     }
 
 }

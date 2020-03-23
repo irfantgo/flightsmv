@@ -94,7 +94,7 @@ abstract class Controller
     {
         if( Auth::hasPermission($permission) == false ) {
             $this->formResponse['errors'][] = 'Sorry, you do not have permission to perform this action';
-            $this->send_json_response();
+            $this->send_form_data();
         }
     }
 

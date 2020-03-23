@@ -90,12 +90,15 @@ class Users extends \Heliumframework\Model
             $ndd = [
                 'user_id'   => $this->last_record_id,
                 'bg_image'  => $dataset['background'],
-                'dv_name'   => $dataset['dhi_name'],
-                'dv_bio'    => $dataset['dhi_bio'],
-                'en_bio'    => $dataset['eng_bio']
+                'dv_name'   => $dataset['dv_name'],
+                'dv_bio'    => $dataset['dv_bio'],
+                'en_bio'    => $dataset['en_bio'],
+                'social_media'    => $dataset['social_media']
             ];
 
             $this->conn->insert($this->tbl_users_meta, $ndd);
+
+            log_message($this->conn->getLastError());
 
             return true;
 
