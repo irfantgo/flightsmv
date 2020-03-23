@@ -1,0 +1,12 @@
+{
+    "name": "shan/pethos",
+    "authors": [
+        {
+            "name": "Ahmed Shan",
+            "email": "ahmedshan16@gmail.com"
+        }
+    ],
+    "require": {
+        "joshcam/mysqli-database-class": "^2.9"
+    }
+}

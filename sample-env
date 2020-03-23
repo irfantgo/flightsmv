@@ -1,0 +1,25 @@
+APP_NAME=Flight MV
+APP_ID=flightmvproj
+
+DEV_MODE=true
+
+LOGIN_URL=/
+
+DB_HOST=
+DB_USER=
+DB_PASS=
+DB_NAME=
+
+ABS_PATH=https://flightmv.sheyn.xyz/
+PATH_STORAGE=../storage
+PATH_TRASH=../storage/trash
+PATH_HF_ASSETS=../resources/framework
+
+TIMEZONE=Asia/Karachi
+
+EMAIL_SMTP_SERVER=
+EMAIL_SMTP_USER=
+EMAIL_SMTP_PASS=
+EMAIL_SMTP_SSL_PORT=
+EMAIL_SMTP_TLS_PORT=
+EMAIL_SMTP_REQUIRED=

@@ -1,0 +1,38 @@
+{
+    "dashboard" : {
+        "url" : "/dashboard",
+        "icon" : "fa-tachometer-alt",
+        "label" : "Dashboard",
+        "permission" : ""
+    },
+    "flights" : {
+        "url" : "/flights",
+        "icon" : "fa-plane",
+        "label" : "Flight",
+        "permission" : "MNG_FLIGHTS"
+    },
+    "applications" : {
+        "url" : "/applications",
+        "icon" : "fa-gamepad",
+        "label" : "Applications",
+        "permission" : "MNG_APPS"
+    },
+    "users" : {
+        "url" : "/users",
+        "icon" : "fa-users",
+        "label" : "Users",
+        "permission" : "MNG_USERS"
+    },
+    "groups" : {
+        "url" : "/groups",
+        "icon" : "fa-user-friends",
+        "label" : "Groups",
+        "permission" : "MNG_GROUPS"
+    },
+    "roles" : {
+        "url" : "/roles",
+        "icon" : "fa-shield-alt",
+        "label" : "Roles",
+        "permission" : "MNG_ROLES"
+    }
+}
