@@ -27,6 +27,20 @@ class FlightsController extends Controller
     }
 
     /**
+     * Fetch flight information (AJAX call)
+     */
+    public function flightinfo()
+    {
+
+        $flightsModel = new Flights();
+        $flights = $flightsModel->get_all_flights();
+
+        // Render View
+        $this->view('cpanel.flights.info', ['flights' => $flights]);
+
+    }
+
+    /**
      * Create new product
      */
     public function create()

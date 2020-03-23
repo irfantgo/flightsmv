@@ -24,6 +24,7 @@ Heliumframework\Router::get('/dashboard', 'DashboardController@index');
 
 // Flight
 Heliumframework\Router::get('/flights', 'FlightsController@index');
+Heliumframework\Router::get('/flights/allflights', 'FlightsController@flightinfo');
 
 // Telegram Controller
 Heliumframework\Router::get('/telegram/webhook', 'TelegramController@index');
