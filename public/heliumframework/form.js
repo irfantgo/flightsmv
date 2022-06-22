@@ -70,6 +70,8 @@ for (var i = 0; i < HFForms.length; i++ ) {
         // Initialize a return data handler
         xhr.onload = function () {
             
+            console.log(xhr);
+
             // Check if the return status is 200
             if (xhr.status === 200) {
 
