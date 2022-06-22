@@ -7,8 +7,8 @@
     @include('heliumframework-css')
 
     {{-- Icons --}}
-    <link rel="icon" type="image/png" href="{{ assets('touch-icons/apple-touch.png') }}">
-    <link rel="apple-touch-icon" href="{{ assets('touch-icons/apple-touch.png') }}">
+    <link rel="icon" type="image/png" href="{{ assets('touch-icons/apple-touch.png?v=1') }}">
+    <link rel="apple-touch-icon" href="{{ assets('touch-icons/apple-touch.png?v=1') }}">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700">
     <link rel="stylesheet" href="{{ assets( 'adminlte/plugins/fontawesome-free/css/all.min.css' ) }}">

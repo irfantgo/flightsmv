@@ -45,7 +45,7 @@
         $dbConn->where('direction', $direction);
         $found = $dbConn->getOne('flightinfo');
 
-        // If flight found
+        // If flight not found
         if( !empty($found) ) {
 
             // Check if status changed... Then update

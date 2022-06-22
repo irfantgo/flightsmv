@@ -33,6 +33,7 @@ class Flights extends \Heliumframework\Model
 
     public function get_all_flights()
     {
+        $this->conn->orderBy('ID', 'DESC');
         $records = $this->conn->get($this->tablename);
         $return_records = [];
 

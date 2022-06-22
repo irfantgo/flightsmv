@@ -59,4 +59,12 @@
      * ------------------------------------
      * Load telegram library
      */
-    include( __DIR__ . '/telegram.php' );
+    // include( __DIR__ . '/telegram.php' );
+
+    $libs = scandir(dirname(__DIR__).'/library');
+    foreach( $libs as $lib ) {
+        if( $lib != '.' && $lib != '..' ) {
+            include_once(dirname(__DIR__).'/library/'.$lib);
+        }
+    }
+    

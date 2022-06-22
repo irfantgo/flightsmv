@@ -34,7 +34,7 @@
         $status         = (string) $flight->Status;
         $status         = ( isset($status) && !empty($status) ? $status : NULL ); // Override after cleaning
         $status         = trim($status); // Override after cleaning
-        $direction      = 'arrival';
+        $direction      = 'departure';
         $bound          = (string) $flight->CarrierType;
 
 

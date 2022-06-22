@@ -721,7 +721,7 @@ class MysqliDb
             $columns = '*';
         }
 
-        $column = is_array($columns) ? implode(', ', $columns) : $columns;
+        $column = is_array($columns) ? implode($columns,', ') : $columns;
 
         if (strpos($tableName, '.') === false) {
             $this->_tableName = self::$prefix . $tableName;
@@ -729,7 +729,7 @@ class MysqliDb
             $this->_tableName = $tableName;
         }
 
-        $this->_query = 'SELECT ' . implode(' ', $this->_queryOptions) . ' ' .
+        $this->_query = 'SELECT ' . implode($this->_queryOptions, ' ') . ' ' .
             $column . " FROM " . $this->_tableName;
         $stmt = $this->_buildQuery($numRows);
 
@@ -1236,7 +1236,7 @@ class MysqliDb
             foreach ($customFieldsOrRegExp as $key => $value) {
                 $customFieldsOrRegExp[$key] = preg_replace("/[^\x80-\xff-a-z0-9\.\(\),_` ]+/i", '', $value);
             }
-            $orderByField = 'FIELD (' . $orderByField . ', "' . implode('","', $customFieldsOrRegExp) . '")';
+            $orderByField = 'FIELD (' . $orderByField . ', "' . implode($customFieldsOrRegExp, '","') . '")';
         }elseif(is_string($customFieldsOrRegExp)){
 	    $orderByField = $orderByField . " REGEXP '" . $customFieldsOrRegExp . "'";
 	}elseif($customFieldsOrRegExp !== null){
@@ -1519,7 +1519,7 @@ class MysqliDb
             return;
         }
 
-        $this->_query = $operation . " " . implode(' ', $this->_queryOptions) . " INTO " . self::$prefix . $tableName;
+        $this->_query = $operation . " " . implode($this->_queryOptions,' ') . " INTO " . self::$prefix . $tableName;
         $stmt = $this->_buildQuery(null, $insertData);
         $status = $stmt->execute();
         $this->_stmtError = $stmt->error;
