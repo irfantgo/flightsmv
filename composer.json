@@ -18,5 +18,10 @@
         "smottt/wideimage": "^1.1",
         "dompdf/dompdf": "^0.8.3",
         "dash8x/dhiraagu-sms": "^0.3.1"
-    }
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.21"
+         }
+   }
 }
