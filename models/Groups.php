@@ -5,7 +5,7 @@ class Groups extends \Heliumframework\Model
     public function __construct()
     {
         parent::__construct();
-        $this->tablename = 'groups';
+        $this->tablename = 'user_groups';
     }
     
 

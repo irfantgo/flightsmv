@@ -17,10 +17,10 @@ class Users extends \Heliumframework\Model
      */
     public function username( $username )
     {
-        $this->conn->join('`groups` g', 'g.ID = users.group_id', 'LEFT');
+        $this->conn->join('user_groups g', 'user_groups.ID = users.group_id', 'LEFT');
         $this->conn->join('user_meta', 'user_meta.user_id = users.ID', 'LEFT');
         $this->conn->where('users.username', $username, '=');
-        $user = $this->conn->getOne($this->tablename, null, 'users.*, users.ID uid, g.group_name, user_meta.*');
+        $user = $this->conn->getOne($this->tablename, null, 'users.*, users.ID uid, user_groups.group_name, user_meta.*');
 
         log_message(print_r($this->getLastError()));
         
@@ -37,10 +37,10 @@ class Users extends \Heliumframework\Model
      */
     public function all_users()
     {
-        $this->conn->join('groups', 'groups.ID = users.group_id', 'LEFT');
+        $this->conn->join('user_groups', 'user_groups.ID = users.group_id', 'LEFT');
         $this->conn->join('user_meta', 'user_meta.user_id = users.ID', 'LEFT');
         $this->conn->orderBy('users.display_name', 'ASC');
-        $users = $this->conn->get($this->tablename, null, 'users.*, users.ID uid, groups.*, user_meta.*');
+        $users = $this->conn->get($this->tablename, null, 'users.*, users.ID uid, user_groups.*, user_meta.*');
         if( $this->conn->count > 0 ) {
             return $users;
         }
