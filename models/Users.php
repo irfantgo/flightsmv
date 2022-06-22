@@ -17,10 +17,10 @@ class Users extends \Heliumframework\Model
      */
     public function username( $username )
     {
-        $this->conn->join('groups', 'groups.ID = users.group_id', 'LEFT');
+        $this->conn->join('`groups` g', 'g.ID = users.group_id', 'LEFT');
         $this->conn->join('user_meta', 'user_meta.user_id = users.ID', 'LEFT');
         $this->conn->where('users.username', $username, '=');
-        $user = $this->conn->getOne($this->tablename, null, 'users.*, users.ID uid, groups.group_name, user_meta.*');
+        $user = $this->conn->getOne($this->tablename, null, 'users.*, users.ID uid, g.group_name, user_meta.*');
 
         log_message(print_r($this->getLastError()));
         
