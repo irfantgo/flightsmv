@@ -18,9 +18,34 @@ class TelegramBotController extends Controller
     {
         $updates = json_decode(file_get_contents("php://input"), true);
         $telegram = new Telegram(_env('TELEGRAM_BOT_TOKEN'), _env('TELEGRAM_BOT_NAME'));
-        $message = "You said " . $updates['message']['text'];
         $chatId = $updates['message']['chat']['id'];
-        $telegram->sendMessage($chatId, $message);
+        $text = $updates['message']['text'];
+
+        if ( $text == '/start' ) {
+            $telegram->sendMessage($chatId, 'Welcome to Flight MV. You can type a flight number to get updates.');
+        }
+        else {
+
+            $flightNo = $text;
+            
+            // Find flight information
+            $flight = new Flights();
+            $info = $flight->conn->rawQuery("SELECT * FROM flightinfo WHERE fligth_no = '$flightNo'");
+
+            if ( empty($info) ) {
+                $telegram->sendMessage($chatId, 'Unable to find flight information for ' . $flightNo);
+            }
+            else {
+                $msg = '<b>Flight Info for '.$flightNo.'</b>';
+                $msg .= json_encode($info);
+                // foreach ( $info as $row ) {
+                //     $msg .= json_encode($row);
+                // }
+                $telegram->sendMessage($chatId, $msg);
+            }
+
+        }
+        
     }
 
 }
