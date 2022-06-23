@@ -291,6 +291,8 @@ class Telegram {
 
         curl_close($ch);
 
+        log_message(print_r($server_output, true));
+
         return $server_output;
     }
 
