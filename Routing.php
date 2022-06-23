@@ -69,3 +69,6 @@ Heliumframework\Router::get('/applications/new', 'ApplicationsController@create'
 Heliumframework\Router::get('/applications/create', 'ApplicationsController@store');
 Heliumframework\Router::get('/applications/revoke/{}', 'ApplicationsController@destroy');
 
+
+// Telegram Bot Stuff
+Heliumframework\Router::get('/ourbot', 'ApplicationsController@index');
