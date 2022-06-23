@@ -71,4 +71,4 @@ Heliumframework\Router::get('/applications/revoke/{}', 'ApplicationsController@d
 
 
 // Telegram Bot Stuff
-Heliumframework\Router::get('/ourbot', 'ApplicationsController@index');
+Heliumframework\Router::get('/ourbot', 'TelegramBotController@index');
