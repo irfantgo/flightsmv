@@ -274,12 +274,13 @@ class Telegram {
 
     private function _call( $url, $postItems = null )
     {
+
+        log_message(print_r($url, true));
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
 
-        log_message(print_r($url, true));
         
         if( empty($postItems) == false ) {
             curl_setopt($ch, CURLOPT_HEADER, 0);
