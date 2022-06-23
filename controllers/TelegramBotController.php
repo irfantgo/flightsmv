@@ -30,14 +30,14 @@ class TelegramBotController extends Controller
             
             // Find flight information
             $flight = new Flights();
-            $info = $flight->conn->rawQuery("SELECT * FROM flightinfo WHERE fligth_no = '$flightNo'");
+            $info = $flight->conn->rawQuery("SELECT * FROM flightinfo where flight_no = '$flightNo'");
 
             if ( empty($info) ) {
                 $telegram->sendMessage($chatId, 'Unable to find flight information for ' . $flightNo);
             }
             else {
-                $msg = '<b>Flight Info for '.$flightNo.'</b>';
-                $msg .= json_encode($info);
+                // $msg = '<b>Flight '.$flightNo.'</b>';
+                $msg = json_encode($info);
                 // foreach ( $info as $row ) {
                 //     $msg .= json_encode($row);
                 // }
@@ -45,7 +45,7 @@ class TelegramBotController extends Controller
             }
 
         }
-        
+
     }
 
 }
