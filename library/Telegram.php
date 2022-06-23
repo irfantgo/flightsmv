@@ -274,6 +274,9 @@ class Telegram {
 
     private function _call( $url, $postItems = null )
     {
+        log_message(print_r("CALLED _CALL FUNCTION", true));
+
+
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $url);
