@@ -34,6 +34,8 @@ class Flights extends \Heliumframework\Model
     public function get_all_flights()
     {
         // $this->conn->orderBy('ID', 'DESC');
+        $today = date('Y-m-d');
+        $this->conn->where('scheduled_d', $today, '>=');
         $records = $this->conn->get($this->tablename);
         $return_records = [];
 
