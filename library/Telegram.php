@@ -274,13 +274,12 @@ class Telegram {
 
     private function _call( $url, $postItems = null )
     {
-        log_message(print_r("CALLED _CALL FUNCTION", true));
-
-
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+
+        log_message(print_r($url, true));
         
         if( empty($postItems) == false ) {
             curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -291,10 +290,9 @@ class Telegram {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $server_output = curl_exec($ch);
+        log_message(print_r($server_output, true));
 
         curl_close($ch);
-
-        log_message(print_r($server_output, true));
 
         return $server_output;
     }
