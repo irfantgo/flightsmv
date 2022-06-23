@@ -16,6 +16,8 @@ Heliumframework\Router::get('/login', 'LoginController@index');
 Heliumframework\Router::get('/login/notifications', 'LoginController@notifications');
 Heliumframework\Router::get('/logout', 'LoginController@logout');
 Heliumframework\Router::post('/login/process', 'LoginController@process');
+Heliumframework\Router::get('/checksession', 'LoginController@checksession');
+
 
 // Notifications
 Heliumframework\Router::get('/notifications', 'NotificationsController@index');

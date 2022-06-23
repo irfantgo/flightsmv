@@ -156,4 +156,12 @@ class LoginController extends Controller
         redirectTo(_env('LOGIN_URL'));
     }
 
+    public function checksession()
+    {
+        if( Session::exists('user') ) {
+            echo true;
+        }
+        echo false;
+    }
+
 }

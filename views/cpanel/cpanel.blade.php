@@ -40,5 +40,19 @@
 
     @include('cpanel.html-footer')
 
+    @if ( \Heliumframework\Session::exists('user') )
+        <script>
+            $(document).ready(function(){
+                setInterval(function () { 
+                    $.get('/checksession', function (data) {
+                        if ( data == false ) {
+                            window.location.href = '/';
+                        }
+                    });
+                }, 5000);
+            });
+        </script>
+    @endif
+
 </body>
 </html>
