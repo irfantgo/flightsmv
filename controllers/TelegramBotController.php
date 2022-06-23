@@ -21,8 +21,9 @@ class TelegramBotController extends Controller
         // $message = "You said " . $updates['message']['text'];
         // $chatId = $updates['message']['chat']['id'];
         // $telegram->sendMessage($chatId, $message);
+        log_message("Reached here 1");
         $telegram->sendMessage('188076523', "Test Message");
-        log_message("Reached here");
+        log_message("Reached here 2");
 
     }
 
