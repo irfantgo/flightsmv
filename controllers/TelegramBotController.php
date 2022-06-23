@@ -16,10 +16,10 @@ class TelegramBotController extends Controller
     
     public function index()
     {
-        $updates = json_decode(file_get_contents("php://input"), true);
+        // $updates = json_decode(file_get_contents("php://input"), true);
         $telegram = new Telegram(_env('TELEGRAM_BOT_TOKEN'), _env('TELEGRAM_BOT_NAME'));
-        $message = "You said " . $updates['message']['text'];
-        $chatId = $updates['message']['chat']['id'];
+        // $message = "You said " . $updates['message']['text'];
+        // $chatId = $updates['message']['chat']['id'];
         // $telegram->sendMessage($chatId, $message);
         $telegram->sendMessage(188076523, "Test Message");
 
