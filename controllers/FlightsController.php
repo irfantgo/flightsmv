@@ -41,30 +41,20 @@ class FlightsController extends Controller
         ]);
 
     }
-
-    /**
-     * Create new product
-     */
-    public function create()
+    
+    public function markToRemind()
     {
+        try {
 
-    }
+            
 
-    /**
-     * Store product information
-     */
-    public function store()
-    {
-
-    }
-
-    /**
-     * Update product information
-     * @param int $product_id
-     */
-    public function update( $product_id )
-    {
-
+        }
+        catch ( Exception $e ) {
+            $this->formResponse['errors'][] = $e->getMessage();
+        }
+        finally {
+            $this->send_json_response();
+        }
     }
 
 

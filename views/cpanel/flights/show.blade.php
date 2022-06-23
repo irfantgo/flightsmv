@@ -12,18 +12,8 @@
 <script>
     $(document).ready(function(){
         var displayBox = $('#flight_info');
-        $.ajax({
-            url: '/flights/allflights',
-            method: 'GET',
-            error: function(){
-                displayBox.html("An error occured");
-            },
-            success: function( data ){
-                displayBox.html(data);
-            }
-        });
-
-        setInterval(function(){
+        
+        function fetchFlights() {
             $.ajax({
                 url: '/flights/allflights',
                 method: 'GET',
@@ -34,7 +24,19 @@
                     displayBox.html(data);
                 }
             });
+        }
+
+        fetchFlights();
+
+        setInterval(function(){
+            fetchFlights();
         }, 10000);
+
+        function markToRemind( flightId )
+        {
+            $.post('/flights/mark-to-remind');
+        }
+        
     });
 </script>
 

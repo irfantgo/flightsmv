@@ -16,9 +16,5 @@
                 {{ $data['flight_status'] }}
             </span>
         </p>
-
-        <p>
-            <a href="javascript:void(0)" class="card-link">Let Me Know</a>
-        </p>
     </div>
 </div> 
