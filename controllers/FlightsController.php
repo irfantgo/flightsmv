@@ -36,7 +36,9 @@ class FlightsController extends Controller
         $flights = $flightsModel->get_all_flights();
 
         // Render View
-        $this->view('cpanel.flights.info', ['flights' => $flights]);
+        $this->view('cpanel.flights.info', [
+            'dataset' => $flights
+        ]);
 
     }
 

@@ -33,7 +33,7 @@ class Flights extends \Heliumframework\Model
 
     public function get_all_flights()
     {
-        $this->conn->orderBy('ID', 'DESC');
+        // $this->conn->orderBy('ID', 'DESC');
         $records = $this->conn->get($this->tablename);
         $return_records = [];
 
@@ -41,26 +41,29 @@ class Flights extends \Heliumframework\Model
 
             for( $i=0; $i<count($records); $i++ ) {
 
-                $return_records[$i] = $records[$i];
+                $tday = $records[$i]['scheduled_d'];
+                $direction = $records[$i]['direction'];
+
+                $return_records[$tday][$direction][$i] = $records[$i];
                 
                 // Cancelled
                 if( $records[$i]['status_int'] == 'CA' ) {
-                    $return_records[$i]['status_flag'] = 'badge badge-danger';
+                    $return_records[$tday][$direction][$i]['status_flag'] = 'badge badge-danger';
                 }
 
                 // Delayed
                 else if( $records[$i]['status_int'] == 'DE' ) {
-                    $return_records[$i]['status_flag'] = 'badge badge-warning';
+                    $return_records[$tday][$direction][$i]['status_flag'] = 'badge badge-warning';
                 }
 
                 // Landed
                 else if( $records[$i]['status_int'] == 'LA' ) {
-                    $return_records[$i]['status_flag'] = 'badge badge-success';
+                    $return_records[$tday][$direction][$i]['status_flag'] = 'badge badge-success';
                 }
                 
                 // Anything Else
                 else {
-                    $return_records[$i]['status_flag'] = '<em>Status Not Available Yet</em>';
+                    $return_records[$tday][$direction][$i]['status_flag'] = '<em>Status Not Available Yet</em>';
                 }
 
             }

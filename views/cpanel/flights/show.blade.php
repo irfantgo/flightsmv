@@ -2,16 +2,16 @@
 @section('page_title', 'Flights')
 @section('page_content')
 
-<div id="flight_info" class="card card-default color-palette-box">
-    <div class="card-body">
+<div id="flight_info">
+    <center>
+        <i class="fas fa-spin fa-spinner"></i>
         LOADING FLIGHTS...
-    </div>
-    <!-- /.card-body -->
+    </center>
 </div>
 
 <script>
     $(document).ready(function(){
-        var displayBox = $('#flight_info').find('.card-body');
+        var displayBox = $('#flight_info');
         $.ajax({
             url: '/flights/allflights',
             method: 'GET',
