@@ -18,7 +18,7 @@
     foreach ( $dataset as $data ) {
 
         $flightId = $data['flight_id'];
-        $flight = $dbConn->rawQuery("SELECT * from flightinfo WHERE flightID = $flightId");
+        $flight = $dbConn->rawQuery("SELECT * from flightinfo WHERE ID = $flightId");
 
         // Check if status changed
         if ( $data['current_status'] != $flight['flight_status'] ) {

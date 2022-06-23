@@ -1,4 +1,4 @@
--- These changes has NOT been applied to prod
+-- These changes has been applied to prod
 
 CREATE TABLE `tbl_reminders` (
   `reminder_id` INT NOT NULL AUTO_INCREMENT,
