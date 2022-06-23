@@ -16,9 +16,8 @@ class TelegramBotController extends Controller
     
     public function index()
     {
-        $updates = file_get_contents("php://input");
-        echo "TOken :" . _env('TELEGRAM_BOT_TOKEN');
-        // $telegram = new Telegram(_env('TELEGRAM_BOT_TOKEN'));
+        $updates = json_decode(file_get_contents("php://input"), true);
+        $telegram = new Telegram(_env('TELEGRAM_BOT_TOKEN'));
         log_message(print_r($updates, true));
     }
 
