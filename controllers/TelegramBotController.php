@@ -36,6 +36,9 @@ class TelegramBotController extends Controller
                 $telegram->sendMessage($chatId, 'Unable to find flight information for ' . $flightNo);
             }
             else {
+
+                // Todo: Clean Up Flight Information and give option to set reminder
+
                 // $msg = '<b>Flight '.$flightNo.'</b>';
                 $msg = json_encode($info);
                 // foreach ( $info as $row ) {
