@@ -17,6 +17,12 @@ class Reminders extends \Heliumframework\Model
             'stop_reminder' => 0,
             'scheduled_dt' => date('Y-m-d H:i:s')
         ];
+        $id = $this->conn->insert($this->tablename, $dataset);
+        if ( $id ) {
+            $this->last_record_id = $id;
+            return true;
+        }
+        return false;
     }
 
     public function get( $reminderId )
