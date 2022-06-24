@@ -19,29 +19,30 @@ class TelegramBotController extends Controller
         $updates = json_decode(file_get_contents("php://input"), true);
         $telegram = new Telegram(_env('TELEGRAM_BOT_TOKEN'), _env('TELEGRAM_BOT_NAME'));
         $chatId = $updates['message']['chat']['id'];
-        $text = (isset($updates['message']) ? $updates['message']['text'] : '');
+        
+        // Handle Call Back Queries
+        if ( isset($updates['callback_query']) ) {
+            $data = $updates['callback_query']['data'];
+            $split = explode('_', $data);
+            $action = $split[0];
+            $id = $split[1];
 
-        log_message(print_r($updates, true));
-
-        if ( $text == '/start' ) {
-            $telegram->sendMessage($chatId, 'Welcome to Flight MV. You can type a flight number to get updates.');
-        }
-        else {
-
-            // Answer Call backs
-            if (isset($updates['callback_query'])) {
-
-                $data = $updates['callback_query']['data'];
-                $x = explode('_', $data);
-                $action = $x[0];
-                $id = $x[1];
-
-                if ( $action == 'remindme' ) {
-                    $telegram->sendMessage($chatId, 'Setting Reminder');
-                }
-                
+            if ( $action == 'remindme' ) {
+                $telegram->sendMessage($chatId, 'Reminder Called for ' . $id);
             }
-            // Anything else, try to find a flight information
+            else {
+                $telegram->sendMessage($chatId, 'Invalid action');
+            }
+
+        }
+
+        // Handle Normal Text Message
+        if ( isset($updates['message']) ) {
+            $text = $updates['message']['text'];
+
+            if ( $text == '/start' ) {
+                $telegram->sendMessage($chatId, 'Welcome to Flight MV. You can type a flight number to get updates.');
+            }
             else {
 
                 $flightNo = $text;
