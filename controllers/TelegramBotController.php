@@ -21,6 +21,8 @@ class TelegramBotController extends Controller
         $chatId = $updates['message']['chat']['id'];
         $text = (isset($updates['message']) ? $updates['message']['text'] : '');
 
+        log_message(print_r($updates, true));
+
         if ( $text == '/start' ) {
             $telegram->sendMessage($chatId, 'Welcome to Flight MV. You can type a flight number to get updates.');
         }
