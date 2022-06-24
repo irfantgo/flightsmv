@@ -6,4 +6,5 @@ message.log
 /cache/
 dump
 /logs/
+/tests/
 .env
