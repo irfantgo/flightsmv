@@ -29,9 +29,9 @@ class TelegramBotController extends Controller
         else {
 
             // Answer Call backs
-            if (isset($updates['callback_query'])) {
+            if (isset($updates['message']['data'])) {
 
-                $data = $updates['callback_query']['data'];
+                $data = $updates['message']['data'];
                 $x = explode('_', $data);
                 $action = $x[0];
                 $id = $x[1];
