@@ -3,11 +3,12 @@
  * The main controller file
  */
 
+namespace Heliumframework;
+
 use Jenssegers\Blade\Blade;
 use PHPMailer\PHPMailer\Exception;
 use Heliumframework\Auth;
 
-namespace Heliumframework;
 
 abstract class Controller 
 {

@@ -3,8 +3,9 @@
  * AUTHENTICATION
  * @author Ahmed Shan (@thaanu16)
  */
-use Heliumframework\Session;
 namespace Heliumframework;
+
+use Heliumframework\Session;
 class Auth 
 {
 
