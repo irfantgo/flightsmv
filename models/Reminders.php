@@ -25,6 +25,15 @@ class Reminders extends \Heliumframework\Model
         return $this->conn->getOne($this->tablename);
     }
 
+    public function check( int $id, string $chatId)
+    {
+        $this->conn->where('flight_id', $id);
+        $this->conn->where('telegram_chat_id', $chatId);
+        $this->conn->where('stop_reminder', 0);
+        $this->conn->get($this->tablename);
+        return ( $this->conn->count > 0 ? true : false );
+    }
+
     public function getPending()
     {
         $this->conn->where('stop_reminder', 0);

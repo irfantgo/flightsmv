@@ -81,6 +81,12 @@ class Flights extends \Heliumframework\Model
 
     }
 
+    public function select_flight_by_id( $flightId )
+    {
+        $this->conn->where('ID', $flightId);
+        return $this->conn->getOne($this->tablename);
+    }
+
     public function select_flight_by_no( string $flightNo )
     {
         $this->conn->where('flight_no', $flightNo);
