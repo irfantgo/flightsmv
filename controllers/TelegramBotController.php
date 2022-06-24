@@ -30,8 +30,8 @@ class TelegramBotController extends Controller
             $id = $split[1];
 
             if ( $action == 'remindme' ) {
-                $telegram->sendMessage($chatId, 'Reminder Called for ' . $id);
                 $telegram->answerCallbackQuery($callBackQueryId, "Reminder is set");
+                // $telegram->sendMessage($chatId, 'Reminder Called for ' . $id);
             }
             else {
                 $telegram->sendMessage($chatId, 'Invalid action');
