@@ -31,7 +31,7 @@ class TelegramBotController extends Controller
 
             if ( $action == 'remindme' ) {
                 $telegram->sendMessage($chatId, 'Reminder Called for ' . $id);
-                $this->telegram->answerCallbackQuery($callBackQueryId, "Reminder is set");
+                $telegram->answerCallbackQuery($callBackQueryId, "Reminder is set");
             }
             else {
                 $telegram->sendMessage($chatId, 'Invalid action');
@@ -52,7 +52,7 @@ class TelegramBotController extends Controller
                 $flightNo = $text;
             
                 // Find flight information
-                $flight = (new Flights())->select_flight_by_no( $flightNo );
+                $flight = (new Flights())->find_flight_by_no( $flightNo );
 
                 if ( empty($flight) ) {
                     $telegram->sendMessage($chatId, 'Unable to find flight information for ' . $flightNo);

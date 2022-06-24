@@ -82,6 +82,14 @@ class Flights extends \Heliumframework\Model
         return $this->conn->getOne($this->tablename);
     }
 
+    public function find_flight_by_no( string $flightNo )
+    {
+        $today = date('Y-m-d');
+        $this->conn->where('schedule_d', $today, '>=');
+        $this->conn->where('flight_no', $flightNo);
+        return $this->conn->getOne($this->tablename);
+    }
+
     public function get_departure()
     {
 
