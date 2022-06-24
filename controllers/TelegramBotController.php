@@ -18,10 +18,11 @@ class TelegramBotController extends Controller
     {
         $updates = json_decode(file_get_contents("php://input"), true);
         $telegram = new Telegram(_env('TELEGRAM_BOT_TOKEN'), _env('TELEGRAM_BOT_NAME'));
-        $chatId = $updates['message']['chat']['id'];
+        
 
         // Handle Call Back Queries
         if ( isset($updates['callback_query']) ) {
+            $chatId = $updates['callback_query']['from']['id'];
             $data = $updates['callback_query']['data'];
             $telegram->sendMessage($chatId, $updates['callback_query']['data']);
             $split = explode('_', $data);
@@ -39,6 +40,7 @@ class TelegramBotController extends Controller
 
         // Handle Normal Text Message
         if ( isset($updates['message']) ) {
+            $chatId = $updates['message']['chat']['id'];
             $text = $updates['message']['text'];
 
             if ( $text == '/start' ) {
