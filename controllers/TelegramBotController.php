@@ -22,7 +22,7 @@ class TelegramBotController extends Controller
 
         // Handle Call Back Queries
         if ( isset($updates['callback_query']) ) {
-            $callBackQueryId = $updates['callback_query']['update_id'];
+            $callBackQueryId = $updates['callback_query']['id'];
             $chatId = $updates['callback_query']['from']['id'];
             $data = $updates['callback_query']['data'];
             $split = explode('_', $data);
