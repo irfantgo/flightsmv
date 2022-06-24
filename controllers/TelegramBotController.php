@@ -66,7 +66,7 @@ class TelegramBotController extends Controller
                 // Find flight information
                 $flights = (new Flights())->find_flight_by_no( $flightNo );
 
-                if ( empty($flight) ) {
+                if ( empty($flights) ) {
                     $telegram->sendMessage($chatId, 'Unable to find flight information for ' . $flightNo);
                 }
                 else {
