@@ -22,15 +22,16 @@ class TelegramBotController extends Controller
 
         // Handle Call Back Queries
         if ( isset($updates['callback_query']) ) {
+            $callBackQueryId = $updates['callback_query']['update_id'];
             $chatId = $updates['callback_query']['from']['id'];
             $data = $updates['callback_query']['data'];
-            $telegram->sendMessage($chatId, $updates['callback_query']['data']);
             $split = explode('_', $data);
             $action = $split[0];
             $id = $split[1];
 
             if ( $action == 'remindme' ) {
                 $telegram->sendMessage($chatId, 'Reminder Called for ' . $id);
+                $this->telegram->answerCallbackQuery($callBackQueryId, "Reminder is set");
             }
             else {
                 $telegram->sendMessage($chatId, 'Invalid action');
