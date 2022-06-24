@@ -64,7 +64,7 @@ class TelegramBotController extends Controller
                 $flightNo = $text;
             
                 // Find flight information
-                $flight = (new Flights())->find_flight_by_no( $flightNo );
+                $flights = (new Flights())->find_flight_by_no( $flightNo );
 
                 if ( empty($flight) ) {
                     $telegram->sendMessage($chatId, 'Unable to find flight information for ' . $flightNo);
@@ -72,19 +72,21 @@ class TelegramBotController extends Controller
                 else {
 
                     // Clean up flight information
-                    $msg   = 'Flight No: ' . $flight['flight_no'] . "\n";
-                    $msg  .= 'Airlines: ' . $flight['airline_name'] . "\n";
-                    $msg  .= 'Date: ' . date("d F Y", strtotime($flight['scheduled_d'])) . "\n";
-                    $msg  .= 'Time: ' . date("H:i", strtotime($flight['scheduled_t'])) . "\n";
-                    $msg  .= 'Status: ' . (empty($flight['flight_status']) ? 'NA' : $flight['flight_status']) . "\n";
+                    foreach( $flights as $flight ) {
+                        $msg   = 'Flight No: ' . $flight['flight_no'] . "\n";
+                        $msg  .= 'Airlines: ' . $flight['airline_name'] . "\n";
+                        $msg  .= 'Date: ' . date("d F Y", strtotime($flight['scheduled_d'])) . "\n";
+                        $msg  .= 'Time: ' . date("H:i", strtotime($flight['scheduled_t'])) . "\n";
+                        $msg  .= 'Status: ' . (empty($flight['flight_status']) ? 'NA' : $flight['flight_status']) . "\n";
+                        $keyboard = [
+                            [
+                                ['text' => 'Keep Me Posted', 'callback_data' => 'remindme_' . $flight['ID']]
+                            ]
+                        ];
+                        
+                        $telegram->sendInlineKeyboard($chatId, $msg, $keyboard);
+                    }
     
-                    $keyboard = [
-                        [
-                            ['text' => 'Keep Me Posted', 'callback_data' => 'remindme_' . $flight['ID']]
-                        ]
-                    ];
-                    
-                    $telegram->sendInlineKeyboard($chatId, $msg, $keyboard);
 
                 }
 
