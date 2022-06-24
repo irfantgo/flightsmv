@@ -62,6 +62,11 @@ class Flights extends \Heliumframework\Model
                 else if( $records[$i]['status_int'] == 'LA' ) {
                     $return_records[$tday][$direction][$i]['status_flag'] = 'badge badge-success';
                 }
+
+                // Departed
+                else if( $records[$i]['status_int'] == 'DP' ) {
+                    $return_records[$tday][$direction][$i]['status_flag'] = 'badge badge-success';
+                }
                 
                 // Anything Else
                 else {

@@ -14,7 +14,8 @@
         'FZ' => 'CLOSED',
         'BO' => 'BOARDING',
         'FC' => 'FINAL CALL',
-        'DP' => 'DEPARTED'
+        'DP' => 'DEPARTED',
+        'GZ' => ''
     ];    
 
     // Bounds
