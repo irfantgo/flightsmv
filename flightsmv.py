@@ -1,4 +1,11 @@
 ### flight status data of Velana International Airport, Maldives URL 'http://fis.com.mv/'
+
+
+#### Dependencies ###
+##    pip install BeautifulSoup
+##    pip install requests
+##    pip install lxml
+####
 from bs4 import BeautifulSoup
 import requests
 
